@@ -1,0 +1,51 @@
+
+use contact
+switched to db contact
+> db.createCollection("mycontactlist")
+{ "ok" : 1 }
+> db.mycontactlist.insert([{Last_name:"Ben Lahmer", First_name:"Fares", Email:"fares@gmail.com", age:26},
+... {Last_name:"Kefi", First_name: "Seif", Email:"kefi@gmail.com",age:15},
+... {Last_name:"Fatnassi", First_name:"Sarra", Email:"sarra.f@gmail.com",age:40},
+... {Last_name:"Ben Yahia",First_name:"Rym",age:4},
+... {Last_name:"Cherif",First_name:"Sami",age:3}])
+BulkWriteResult({
+        "writeErrors" : [ ],
+        "writeConcernErrors" : [ ],
+        "nInserted" : 5,
+        "nUpserted" : 0,
+        "nMatched" : 0,
+        "nModified" : 0,
+        "nRemoved" : 0,
+        "upserted" : [ ]
+})
+> db.mycontactlist.find()
+{ "_id" : ObjectId("61a38b393abe31e5792160a7"), "Last_name" : "Ben Lahmer", "First_name" : "Fares", "Email" : "fares@gmail.com", "age" : 26 }
+{ "_id" : ObjectId("61a38b393abe31e5792160a8"), "Last_name" : "Kefi", "First_name" : "Seif", "Email" : "kefi@gmail.com", "age" : 15 }
+{ "_id" : ObjectId("61a38b393abe31e5792160a9"), "Last_name" : "Fatnassi", "First_name" : "Sarra", "Email" : "sarra.f@gmail.com", "age" : 40 }
+{ "_id" : ObjectId("61a38b393abe31e5792160aa"), "Last_name" : "Ben Yahia", "First_name" : "Rym", "age" : 4 }
+{ "_id" : ObjectId("61a38b393abe31e5792160ab"), "Last_name" : "Cherif", "First_name" : "Sami", "age" : 3 }
+>  db.mycontactlist.find(ObjectId("61a38b393abe31e5792160a7"))
+{ "_id" : ObjectId("61a38b393abe31e5792160a7"), "Last_name" : "Ben Lahmer", "First_name" : "Fares", "Email" : "fares@gmail.com", "age" : 26 }
+>  db.mycontactlist.find({age:{$gt:18}})
+{ "_id" : ObjectId("61a38b393abe31e5792160a7"), "Last_name" : "Ben Lahmer", "First_name" : "Fares", "Email" : "fares@gmail.com", "age" : 26 }
+{ "_id" : ObjectId("61a38b393abe31e5792160a9"), "Last_name" : "Fatnassi", "First_name" : "Sarra", "Email" : "sarra.f@gmail.com", "age" : 40 }
+>  db.mycontactlist.update({First_name:"Seif"},{$set:{First_name:"Anis"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.mycontactlist.findOne({Last_name: {$regex : ".*ah.*"}});
+{
+        "_id" : ObjectId("61a38b393abe31e5792160a7"),
+        "Last_name" : "Ben Lahmer",
+        "First_name" : "Fares",
+        "Email" : "fares@gmail.com",
+        "age" : 26
+}
+> db.mycontactlist.remove({age:{$lte:5}})
+WriteResult({ "nRemoved" : 2 })
+> db.mycontactlist.find()
+{ "_id" : ObjectId("61a38b393abe31e5792160a7"), "Last_name" : "Ben Lahmer", "First_name" : "Fares", "Email" : "fares@gmail.com", "age" : 26 }
+{ "_id" : ObjectId("61a38b393abe31e5792160a8"), "Last_name" : "Kefi", "First_name" : "Anis", "Email" : "kefi@gmail.com", "age" : 15 }
+{ "_id" : ObjectId("61a38b393abe31e5792160a9"), "Last_name" : "Fatnassi", "First_name" : "Sarra", "Email" : "sarra.f@gmail.com", "age" : 40 }
+>
+
+
+
